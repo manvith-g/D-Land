@@ -25,18 +25,41 @@ POST /api/tokenise
     }
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify # Correct
 from flask_cors import CORS
 from dotenv import load_dotenv
 
 # Load .env BEFORE any module that reads os.environ
 load_dotenv()
 
-from rera_token_create import tokenise_rera  # noqa: E402
+from rera_token_create import tokenise_rera, fetch_rera_record  # noqa: E402
 
 app = Flask(__name__)
 CORS(app)
 
+
+@app.route("/api/verify", methods=["POST"])
+def verify():
+    """
+    Verify a RERA ID exists in the database.
+    Expects JSON body with:
+      - rera_id (str)
+    """
+    body = request.get_json(force=True, silent=True)
+    if not body:
+        return jsonify({"success": False, "error": "Request body must be JSON"}), 400
+
+    rera_id = body.get("rera_id", "").strip()
+    if not rera_id:
+        return jsonify({"success": False, "error": "rera_id is required"}), 400
+
+    try:
+        record = fetch_rera_record(rera_id)
+        return jsonify({"success": True, "data": record}), 200
+    except ValueError as exc:
+        return jsonify({"success": False, "error": str(exc)}), 404
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc)}), 500
 
 @app.route("/api/tokenise", methods=["POST"])
 def tokenise():

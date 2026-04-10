@@ -149,6 +149,13 @@ def create_and_transfer_asa(
     metadata_hash = hashlib.sha256(ipfs_url.encode()).digest()
 
     # ── 3a. ASA Create txn (signed by creator) ──────────────
+    # Algorand Asset Name must be strictly <= 32 characters
+    suffix = f"-F{flat_index}/{total_flats}"
+    prefix = "RERA-"
+    max_rera_len = 32 - len(prefix) - len(suffix)
+    short_rera = rera_id[-max_rera_len:] if len(rera_id) > max_rera_len else rera_id
+    final_asset_name = f"{prefix}{short_rera}{suffix}"
+
     create_txn = transaction.AssetConfigTxn(
         sender=CREATOR_ADDR,
         sp=params,
@@ -156,7 +163,7 @@ def create_and_transfer_asa(
         decimals=0,
         default_frozen=False,
         unit_name="DLAND",
-        asset_name=f"RERA-{rera_id}-Flat-{flat_index}/{total_flats}",
+        asset_name=final_asset_name,
         url=ipfs_url,
         metadata_hash=metadata_hash,
         manager=CREATOR_ADDR,
