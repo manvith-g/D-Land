@@ -1,0 +1,32 @@
+{
+  "survey_number": "105/C",
+  "owner_info": {
+    "name": "Lakshmi Devi",
+    "father_name": "Sundar Rajan Sr.",
+    "pan": "ABCDE2852F",
+    "contact": "+91-8465620614",
+    "address": "Door No 100, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 679.18,
+    "land_type": "Commercial",
+    "classification": "Wet Land",
+    "boundaries": {
+      "north": "Survey No 104",
+      "south": "Survey No 106",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.974168,
+      "longitude": 77.522865
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-63266",
+    "registration_date": "2024-08-12",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

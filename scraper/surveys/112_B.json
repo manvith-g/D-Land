@@ -1,0 +1,32 @@
+{
+  "survey_number": "112/B",
+  "owner_info": {
+    "name": "Anish Hegde",
+    "father_name": "Anish Hegde Sr.",
+    "pan": "ABCDE3535F",
+    "contact": "+91-9695862518",
+    "address": "Door No 45, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 3183.42,
+    "land_type": "Residential",
+    "classification": "Garden Land",
+    "boundaries": {
+      "north": "Survey No 111",
+      "south": "Survey No 113",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.948742,
+      "longitude": 77.633822
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-48023",
+    "registration_date": "2024-01-22",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Disputed",
+  "tax_paid_until": "2024-03-31"
+}

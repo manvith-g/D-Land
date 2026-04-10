@@ -1,0 +1,32 @@
+{
+  "survey_number": "104/C",
+  "owner_info": {
+    "name": "Amit Singh",
+    "father_name": "Priya Sharma Sr.",
+    "pan": "ABCDE6288F",
+    "contact": "+91-8323375617",
+    "address": "Door No 11, Jayanagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 1218.63,
+    "land_type": "Commercial",
+    "classification": "Non-Agricultural",
+    "boundaries": {
+      "north": "Survey No 103",
+      "south": "Survey No 105",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.955459,
+      "longitude": 77.633302
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-94175",
+    "registration_date": "2020-04-27",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

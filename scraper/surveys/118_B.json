@@ -1,0 +1,32 @@
+{
+  "survey_number": "118/B",
+  "owner_info": {
+    "name": "Sundar Rajan",
+    "father_name": "Anish Hegde Sr.",
+    "pan": "ABCDE5967F",
+    "contact": "+91-9365420242",
+    "address": "Door No 75, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 4200.64,
+    "land_type": "Agricultural",
+    "classification": "Dry Land",
+    "boundaries": {
+      "north": "Survey No 117",
+      "south": "Survey No 119",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.908888,
+      "longitude": 77.585382
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-61862",
+    "registration_date": "2021-10-08",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

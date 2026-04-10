@@ -1,0 +1,32 @@
+{
+  "survey_number": "124/1",
+  "owner_info": {
+    "name": "Anish Hegde",
+    "father_name": "Rajesh Kumar Sr.",
+    "pan": "ABCDE7256F",
+    "contact": "+91-8350366204",
+    "address": "Door No 59, Jayanagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 4501.23,
+    "land_type": "Industrial",
+    "classification": "Non-Agricultural",
+    "boundaries": {
+      "north": "Survey No 123",
+      "south": "Survey No 125",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.984534,
+      "longitude": 77.576467
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-29118",
+    "registration_date": "2023-10-19",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

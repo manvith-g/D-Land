@@ -1,0 +1,32 @@
+{
+  "survey_number": "108/C",
+  "owner_info": {
+    "name": "Vijay Bhaskar",
+    "father_name": "Rajesh Kumar Sr.",
+    "pan": "ABCDE8230F",
+    "contact": "+91-8033219103",
+    "address": "Door No 47, Whitefield, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 2896.87,
+    "land_type": "Commercial",
+    "classification": "Garden Land",
+    "boundaries": {
+      "north": "Survey No 107",
+      "south": "Survey No 109",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.971829,
+      "longitude": 77.57214
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-57990",
+    "registration_date": "2021-12-11",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

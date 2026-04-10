@@ -1,0 +1,32 @@
+{
+  "survey_number": "121/1",
+  "owner_info": {
+    "name": "Suresh Babu",
+    "father_name": "Manjunath Gowda Sr.",
+    "pan": "ABCDE5955F",
+    "contact": "+91-9715191870",
+    "address": "Door No 97, Koramangala, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 4619.78,
+    "land_type": "Park/Open Space",
+    "classification": "Wet Land",
+    "boundaries": {
+      "north": "Survey No 120",
+      "south": "Survey No 122",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.971585,
+      "longitude": 77.660017
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-37582",
+    "registration_date": "2023-07-10",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

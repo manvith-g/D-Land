@@ -1,0 +1,32 @@
+{
+  "survey_number": "101/A",
+  "owner_info": {
+    "name": "Anish Hegde",
+    "father_name": "Priya Sharma Sr.",
+    "pan": "ABCDE1004F",
+    "contact": "+91-8480577872",
+    "address": "Door No 90, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 3903.19,
+    "land_type": "Industrial",
+    "classification": "Dry Land",
+    "boundaries": {
+      "north": "Survey No 100",
+      "south": "Survey No 102",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.900254,
+      "longitude": 77.687038
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-46173",
+    "registration_date": "2022-04-18",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

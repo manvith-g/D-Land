@@ -1,0 +1,32 @@
+{
+  "survey_number": "102/A",
+  "owner_info": {
+    "name": "Meera Nair",
+    "father_name": "Rajesh Kumar Sr.",
+    "pan": "ABCDE2097F",
+    "contact": "+91-7980701115",
+    "address": "Door No 71, Jayanagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 1841.2,
+    "land_type": "Park/Open Space",
+    "classification": "Garden Land",
+    "boundaries": {
+      "north": "Survey No 101",
+      "south": "Survey No 103",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.958753,
+      "longitude": 77.561873
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-21750",
+    "registration_date": "2024-08-17",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

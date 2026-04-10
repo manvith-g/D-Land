@@ -1,0 +1,32 @@
+{
+  "survey_number": "110/2",
+  "owner_info": {
+    "name": "Lakshmi Devi",
+    "father_name": "Suresh Babu Sr.",
+    "pan": "ABCDE9404F",
+    "contact": "+91-9833872530",
+    "address": "Door No 6, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 1214.68,
+    "land_type": "Industrial",
+    "classification": "Wet Land",
+    "boundaries": {
+      "north": "Survey No 109",
+      "south": "Survey No 111",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.911636,
+      "longitude": 77.558951
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-24095",
+    "registration_date": "2020-02-13",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

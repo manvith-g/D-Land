@@ -1,0 +1,32 @@
+{
+  "survey_number": "120/B",
+  "owner_info": {
+    "name": "Meera Nair",
+    "father_name": "Amit Singh Sr.",
+    "pan": "ABCDE3717F",
+    "contact": "+91-9479988094",
+    "address": "Door No 85, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 2432.8,
+    "land_type": "Agricultural",
+    "classification": "Non-Agricultural",
+    "boundaries": {
+      "north": "Survey No 119",
+      "south": "Survey No 121",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.915439,
+      "longitude": 77.573899
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-96577",
+    "registration_date": "2022-03-10",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

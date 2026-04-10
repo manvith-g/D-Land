@@ -1,0 +1,32 @@
+{
+  "survey_number": "114/A",
+  "owner_info": {
+    "name": "Lakshmi Devi",
+    "father_name": "Anish Hegde Sr.",
+    "pan": "ABCDE7684F",
+    "contact": "+91-8937295752",
+    "address": "Door No 64, Whitefield, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 1201.22,
+    "land_type": "Commercial",
+    "classification": "Non-Agricultural",
+    "boundaries": {
+      "north": "Survey No 113",
+      "south": "Survey No 115",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.973643,
+      "longitude": 77.596115
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-72300",
+    "registration_date": "2021-03-16",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

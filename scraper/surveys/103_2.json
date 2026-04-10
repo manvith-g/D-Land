@@ -1,0 +1,32 @@
+{
+  "survey_number": "103/2",
+  "owner_info": {
+    "name": "Sundar Rajan",
+    "father_name": "Amit Singh Sr.",
+    "pan": "ABCDE2820F",
+    "contact": "+91-8334935215",
+    "address": "Door No 48, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 3569.74,
+    "land_type": "Commercial",
+    "classification": "Wet Land",
+    "boundaries": {
+      "north": "Survey No 102",
+      "south": "Survey No 104",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.993913,
+      "longitude": 77.563339
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-68417",
+    "registration_date": "2021-11-14",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

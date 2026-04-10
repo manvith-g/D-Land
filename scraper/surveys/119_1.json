@@ -1,0 +1,32 @@
+{
+  "survey_number": "119/1",
+  "owner_info": {
+    "name": "Amit Singh",
+    "father_name": "Meera Nair Sr.",
+    "pan": "ABCDE3365F",
+    "contact": "+91-9184292477",
+    "address": "Door No 72, Jayanagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 2258.9,
+    "land_type": "Commercial",
+    "classification": "Non-Agricultural",
+    "boundaries": {
+      "north": "Survey No 118",
+      "south": "Survey No 120",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.969209,
+      "longitude": 77.511666
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-61721",
+    "registration_date": "2020-03-25",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Disputed",
+  "tax_paid_until": "2024-03-31"
+}

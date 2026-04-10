@@ -1,0 +1,32 @@
+{
+  "survey_number": "115/1",
+  "owner_info": {
+    "name": "Amit Singh",
+    "father_name": "Amit Singh Sr.",
+    "pan": "ABCDE5662F",
+    "contact": "+91-7289744613",
+    "address": "Door No 95, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 4965.44,
+    "land_type": "Industrial",
+    "classification": "Garden Land",
+    "boundaries": {
+      "north": "Survey No 114",
+      "south": "Survey No 116",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.924348,
+      "longitude": 77.614983
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-18679",
+    "registration_date": "2024-10-09",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

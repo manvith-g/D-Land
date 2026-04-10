@@ -1,0 +1,32 @@
+{
+  "survey_number": "109/2",
+  "owner_info": {
+    "name": "Rajesh Kumar",
+    "father_name": "Priya Sharma Sr.",
+    "pan": "ABCDE4377F",
+    "contact": "+91-8371744879",
+    "address": "Door No 11, Koramangala, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 3551.93,
+    "land_type": "Industrial",
+    "classification": "Garden Land",
+    "boundaries": {
+      "north": "Survey No 108",
+      "south": "Survey No 110",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.936887,
+      "longitude": 77.544093
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-54048",
+    "registration_date": "2022-02-16",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

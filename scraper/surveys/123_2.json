@@ -1,0 +1,32 @@
+{
+  "survey_number": "123/2",
+  "owner_info": {
+    "name": "Sundar Rajan",
+    "father_name": "Manjunath Gowda Sr.",
+    "pan": "ABCDE3836F",
+    "contact": "+91-9927123910",
+    "address": "Door No 100, Koramangala, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 2819.59,
+    "land_type": "Park/Open Space",
+    "classification": "Non-Agricultural",
+    "boundaries": {
+      "north": "Survey No 122",
+      "south": "Survey No 124",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.907304,
+      "longitude": 77.52338
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-50404",
+    "registration_date": "2020-11-24",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

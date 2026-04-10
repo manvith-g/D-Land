@@ -1,0 +1,32 @@
+{
+  "survey_number": "113/B",
+  "owner_info": {
+    "name": "Meera Nair",
+    "father_name": "Priya Sharma Sr.",
+    "pan": "ABCDE4903F",
+    "contact": "+91-9162693381",
+    "address": "Door No 49, Whitefield, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 1128.31,
+    "land_type": "Residential",
+    "classification": "Wet Land",
+    "boundaries": {
+      "north": "Survey No 112",
+      "south": "Survey No 114",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.916464,
+      "longitude": 77.59871
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-67124",
+    "registration_date": "2022-03-06",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

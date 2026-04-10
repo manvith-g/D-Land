@@ -1,0 +1,32 @@
+{
+  "survey_number": "106/C",
+  "owner_info": {
+    "name": "Lakshmi Devi",
+    "father_name": "Priya Sharma Sr.",
+    "pan": "ABCDE2363F",
+    "contact": "+91-7181578540",
+    "address": "Door No 9, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 2976.13,
+    "land_type": "Commercial",
+    "classification": "Dry Land",
+    "boundaries": {
+      "north": "Survey No 105",
+      "south": "Survey No 107",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.906102,
+      "longitude": 77.685714
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-74743",
+    "registration_date": "2021-01-08",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

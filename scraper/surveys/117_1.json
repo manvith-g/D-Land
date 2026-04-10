@@ -1,0 +1,32 @@
+{
+  "survey_number": "117/1",
+  "owner_info": {
+    "name": "Amit Singh",
+    "father_name": "Priya Sharma Sr.",
+    "pan": "ABCDE3995F",
+    "contact": "+91-9889582376",
+    "address": "Door No 14, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 2608.57,
+    "land_type": "Commercial",
+    "classification": "Garden Land",
+    "boundaries": {
+      "north": "Survey No 116",
+      "south": "Survey No 118",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.902188,
+      "longitude": 77.585725
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-96556",
+    "registration_date": "2023-09-25",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

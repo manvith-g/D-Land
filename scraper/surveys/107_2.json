@@ -1,0 +1,32 @@
+{
+  "survey_number": "107/2",
+  "owner_info": {
+    "name": "Vijay Bhaskar",
+    "father_name": "Sundar Rajan Sr.",
+    "pan": "ABCDE8127F",
+    "contact": "+91-9849849075",
+    "address": "Door No 3, Whitefield, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 4640.43,
+    "land_type": "Agricultural",
+    "classification": "Wet Land",
+    "boundaries": {
+      "north": "Survey No 106",
+      "south": "Survey No 108",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.946171,
+      "longitude": 77.684223
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-15974",
+    "registration_date": "2022-04-23",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Pending",
+  "tax_paid_until": "2024-03-31"
+}

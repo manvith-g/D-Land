@@ -1,0 +1,32 @@
+{
+  "survey_number": "116/1",
+  "owner_info": {
+    "name": "Manjunath Gowda",
+    "father_name": "Meera Nair Sr.",
+    "pan": "ABCDE8466F",
+    "contact": "+91-9743438081",
+    "address": "Door No 47, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 1097.88,
+    "land_type": "Industrial",
+    "classification": "Garden Land",
+    "boundaries": {
+      "north": "Survey No 115",
+      "south": "Survey No 117",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.959081,
+      "longitude": 77.576868
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-53024",
+    "registration_date": "2021-09-06",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}

@@ -1,0 +1,32 @@
+{
+  "survey_number": "111/2",
+  "owner_info": {
+    "name": "Manjunath Gowda",
+    "father_name": "Manjunath Gowda Sr.",
+    "pan": "ABCDE1642F",
+    "contact": "+91-9827830782",
+    "address": "Door No 27, Indiranagar, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 1662.3,
+    "land_type": "Residential",
+    "classification": "Dry Land",
+    "boundaries": {
+      "north": "Survey No 110",
+      "south": "Survey No 112",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.959838,
+      "longitude": 77.523039
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-90285",
+    "registration_date": "2023-05-25",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Disputed",
+  "tax_paid_until": "2024-03-31"
+}

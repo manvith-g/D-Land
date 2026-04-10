@@ -1,0 +1,32 @@
+{
+  "survey_number": "122/C",
+  "owner_info": {
+    "name": "Amit Singh",
+    "father_name": "Anish Hegde Sr.",
+    "pan": "ABCDE9960F",
+    "contact": "+91-8502630743",
+    "address": "Door No 99, Koramangala, Bangalore"
+  },
+  "land_details": {
+    "area_sq_m": 4726.11,
+    "land_type": "Industrial",
+    "classification": "Non-Agricultural",
+    "boundaries": {
+      "north": "Survey No 121",
+      "south": "Survey No 123",
+      "east": "Public Road",
+      "west": "Private Property"
+    },
+    "location_coordinates": {
+      "latitude": 12.935163,
+      "longitude": 77.683835
+    }
+  },
+  "registration_details": {
+    "document_id": "DOC-57712",
+    "registration_date": "2021-08-12",
+    "registrar_office": "Bangalore Urban Registrar"
+  },
+  "status": "Verified",
+  "tax_paid_until": "2024-03-31"
+}
