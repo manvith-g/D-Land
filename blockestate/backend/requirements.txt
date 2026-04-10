@@ -1,0 +1,4 @@
+flask
+flask-cors
+py-algorand-sdk
+python-dotenv
