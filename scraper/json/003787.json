@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "acknowledgement_number": "PRM/KA/RERA/4849/479/PR/789964/3661",
+    "registration_number": "PRM/KA/RERA/1251/309/PR/210119/003787",
+    "document_type": "Project Registration Details"
+  },
+  "project_identity": {
+    "project_name": "Life By The Lake",
+    "project_type": "Residential/Group Housing",
+    "project_status": "Ongoing",
+    "approving_authority": "Fake Approving Authority"
+  },
+  "promoter_info": {
+    "name": "Keya Homes Pvt Ltd",
+    "type": "Company",
+    "pan": "AAFCK1456Q",
+    "authorized_signatory": "Dinesh Kejriwal"
+  },
+  "timeline": {
+    "start_date": "2016-04-01",
+    "proposed_completion": "2022-06-30"
+  },
+  "construction_metrics": {
+    "total_land_area_sq_m": 10522.0,
+    "total_covered_area_sq_m": 4865.0,
+    "total_open_area_sq_m": 5657.0,
+    "development_carried_till_date_pct": 50.0,
+    "development_pending_pct": 50.0
+  },
+  "financials": {
+    "estimated_construction_cost": 685265000,
+    "land_cost": 147831000,
+    "total_project_cost": 833096000,
+    "amount_collected_from_allottees": 0,
+    "amount_used_for_development": 419560600
+  },
+  "escrow_account": {
+    "bank_name": "HDFC",
+    "branch": "Double road ifscCode : HDFC0001206",
+    "ifsc": "HDFC0001206",
+    "account_number": "50200052471145"
+  },
+  "inventory": {
+    "parking_for_sale_count": 0,
+    "parking_area_sq_m": 0.0,
+    "garages_for_sale": 0,
+    "flats": [
+      {
+        "flat_number": "F-795",
+        "area_sq_m": 44.81,
+        "price": 3655000
+      },
+      {
+        "flat_number": "F-814",
+        "area_sq_m": 93.81,
+        "price": 5809000
+      },
+      {
+        "flat_number": "F-874",
+        "area_sq_m": 92.75,
+        "price": 138000
+      },
+      {
+        "flat_number": "F-911",
+        "area_sq_m": 99.9,
+        "price": 6146000
+      },
+      {
+        "flat_number": "F-385",
+        "area_sq_m": 46.36,
+        "price": 8713000
+      },
+      {
+        "flat_number": "F-571",
+        "area_sq_m": 65.22,
+        "price": 6591000
+      },
+      {
+        "flat_number": "F-937",
+        "area_sq_m": 108.32,
+        "price": 2610000
+      },
+      {
+        "flat_number": "F-482",
+        "area_sq_m": 72.24,
+        "price": 6035000
+      },
+      {
+        "flat_number": "F-115",
+        "area_sq_m": 116.59,
+        "price": 4695000
+      },
+      {
+        "flat_number": "F-621",
+        "area_sq_m": 62.01,
+        "price": 3006000
+      },
+      {
+        "flat_number": "F-650",
+        "area_sq_m": 63.26,
+        "price": 2084000
+      },
+      {
+        "flat_number": "F-414",
+        "area_sq_m": 74.97,
+        "price": 5984000
+      },
+      {
+        "flat_number": "F-460",
+        "area_sq_m": 89.26,
+        "price": 6793000
+      },
+      {
+        "flat_number": "F-978",
+        "area_sq_m": 116.48,
+        "price": 13657674
+      },
+      {
+        "flat_number": "F-438",
+        "area_sq_m": 123.43,
+        "price": 11266127
+      },
+      {
+        "flat_number": "F-859",
+        "area_sq_m": 145.88,
+        "price": 11023111
+      },
+      {
+        "flat_number": "F-951",
+        "area_sq_m": 128.84,
+        "price": 6940204
+      },
+      {
+        "flat_number": "F-641",
+        "area_sq_m": 121.58,
+        "price": 12350131
+      },
+      {
+        "flat_number": "F-842",
+        "area_sq_m": 144.77,
+        "price": 10323938
+      },
+      {
+        "flat_number": "F-248",
+        "area_sq_m": 68.83,
+        "price": 10488536
+      },
+      {
+        "flat_number": "F-597",
+        "area_sq_m": 146.51,
+        "price": 12869463
+      },
+      {
+        "flat_number": "F-805",
+        "area_sq_m": 143.28,
+        "price": 4252330
+      },
+      {
+        "flat_number": "F-477",
+        "area_sq_m": 54.21,
+        "price": 3658934
+      },
+      {
+        "flat_number": "F-250",
+        "area_sq_m": 112.87,
+        "price": 1843977
+      }
+    ]
+  }
+}

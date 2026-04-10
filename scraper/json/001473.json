@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "acknowledgement_number": "PR/KN/170823/001473",
+    "registration_number": "PRM/KA/RERA/1251/310/PR/171214/001473",
+    "document_type": "Project Registration Details"
+  },
+  "project_identity": {
+    "project_name": "Hamilton Homes Ph-II",
+    "project_type": "Residential/Group Housing",
+    "project_status": "Ongoing",
+    "approving_authority": "Fake Approving Authority"
+  },
+  "promoter_info": {
+    "name": "Hamilton Projects LLP",
+    "type": "Partnership Firm",
+    "pan": "AAHFH7988P",
+    "authorized_signatory": "TEJUS REDDY"
+  },
+  "timeline": {
+    "start_date": "2014-09-19",
+    "proposed_completion": "2019-06-19"
+  },
+  "construction_metrics": {
+    "total_land_area_sq_m": 19099.0,
+    "total_covered_area_sq_m": 6741.0,
+    "total_open_area_sq_m": 12358.0,
+    "development_carried_till_date_pct": 80.0,
+    "development_pending_pct": 20.0
+  },
+  "financials": {
+    "estimated_construction_cost": 1006236200,
+    "land_cost": 80217144,
+    "total_project_cost": 1086453344,
+    "amount_collected_from_allottees": 464520919,
+    "amount_used_for_development": 464456783
+  },
+  "escrow_account": {
+    "bank_name": "Axis Bank",
+    "branch": "Sadashivnagar ifscCode : UTIB0001887",
+    "ifsc": "UTIB0001887",
+    "account_number": "915020055679928"
+  },
+  "inventory": {
+    "parking_for_sale_count": 48,
+    "parking_area_sq_m": 660.0,
+    "garages_for_sale": 0,
+    "flats": [
+      {
+        "flat_number": "F-488",
+        "area_sq_m": 76.17,
+        "price": 329000
+      },
+      {
+        "flat_number": "F-479",
+        "area_sq_m": 112.48,
+        "price": 708000
+      },
+      {
+        "flat_number": "F-247",
+        "area_sq_m": 89.82,
+        "price": 9414000
+      },
+      {
+        "flat_number": "F-220",
+        "area_sq_m": 96.98,
+        "price": 9417000
+      },
+      {
+        "flat_number": "F-390",
+        "area_sq_m": 76.73,
+        "price": 9007000
+      },
+      {
+        "flat_number": "F-236",
+        "area_sq_m": 54.83,
+        "price": 5001000
+      },
+      {
+        "flat_number": "F-373",
+        "area_sq_m": 81.05,
+        "price": 2179000
+      },
+      {
+        "flat_number": "F-691",
+        "area_sq_m": 47.99,
+        "price": 4087000
+      },
+      {
+        "flat_number": "F-431",
+        "area_sq_m": 83.41,
+        "price": 8310000
+      },
+      {
+        "flat_number": "F-355",
+        "area_sq_m": 88.21,
+        "price": 3711000
+      },
+      {
+        "flat_number": "F-131",
+        "area_sq_m": 68.68,
+        "price": 3580000
+      },
+      {
+        "flat_number": "F-352",
+        "area_sq_m": 97.41,
+        "price": 8557000
+      },
+      {
+        "flat_number": "F-687",
+        "area_sq_m": 70.98,
+        "price": 107000
+      },
+      {
+        "flat_number": "F-980",
+        "area_sq_m": 115.32,
+        "price": 8408000
+      },
+      {
+        "flat_number": "F-767",
+        "area_sq_m": 78.8,
+        "price": 9798458
+      },
+      {
+        "flat_number": "F-207",
+        "area_sq_m": 110.31,
+        "price": 9847052
+      },
+      {
+        "flat_number": "F-683",
+        "area_sq_m": 65.17,
+        "price": 9659845
+      },
+      {
+        "flat_number": "F-394",
+        "area_sq_m": 139.4,
+        "price": 3750451
+      },
+      {
+        "flat_number": "F-614",
+        "area_sq_m": 66.64,
+        "price": 12104919
+      },
+      {
+        "flat_number": "F-499",
+        "area_sq_m": 146.17,
+        "price": 14385448
+      },
+      {
+        "flat_number": "F-432",
+        "area_sq_m": 121.96,
+        "price": 11230287
+      },
+      {
+        "flat_number": "F-975",
+        "area_sq_m": 72.5,
+        "price": 11952988
+      },
+      {
+        "flat_number": "F-618",
+        "area_sq_m": 106.92,
+        "price": 7884583
+      },
+      {
+        "flat_number": "F-408",
+        "area_sq_m": 142.31,
+        "price": 5850110
+      },
+      {
+        "flat_number": "F-300",
+        "area_sq_m": 43.42,
+        "price": 4325126
+      },
+      {
+        "flat_number": "F-399",
+        "area_sq_m": 59.85,
+        "price": 6418488
+      },
+      {
+        "flat_number": "F-768",
+        "area_sq_m": 42.54,
+        "price": 8756011
+      },
+      {
+        "flat_number": "F-290",
+        "area_sq_m": 138.45,
+        "price": 5097869
+      },
+      {
+        "flat_number": "F-296",
+        "area_sq_m": 145.68,
+        "price": 5784698
+      },
+      {
+        "flat_number": "F-234",
+        "area_sq_m": 90.58,
+        "price": 7994123
+      },
+      {
+        "flat_number": "F-795",
+        "area_sq_m": 146.4,
+        "price": 9881702
+      },
+      {
+        "flat_number": "F-400",
+        "area_sq_m": 141.86,
+        "price": 11389256
+      },
+      {
+        "flat_number": "F-856",
+        "area_sq_m": 130.12,
+        "price": 5010001
+      },
+      {
+        "flat_number": "F-716",
+        "area_sq_m": 88.53,
+        "price": 14133528
+      }
+    ]
+  }
+}

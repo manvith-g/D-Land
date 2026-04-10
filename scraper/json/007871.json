@@ -1,0 +1,205 @@
+{
+  "metadata": {
+    "acknowledgement_number": "PRM/KA/RERA/7212/146/PR/542280/1146",
+    "registration_number": "PRM/KA/RERA/7810/275/PR/555616/3684",
+    "document_type": "Mixed Use"
+  },
+  "project_identity": {
+    "project_name": "TRIFECTA VANTO PHASE-2",
+    "project_type": "Residential/Group Housing",
+    "project_status": "Ongoing",
+    "approving_authority": "BDA - Bangalore Development Authority Approved Plan Number : BDA/EM/EO-1/T A-2/E/69/2024-25 Plan Approval Date : 01-04-2025 Have you applied for RERA Registration for the same Plan ? : NO Total Number of Inventories/Flats/V illas : 202"
+  },
+  "promoter_info": {
+    "name": "TRIFECTA PROJECTS PRIVATE LIMITED",
+    "type": "Company",
+    "pan": "AACCE9717F",
+    "authorized_signatory": "Ramireddy V enka Subba Reddy"
+  },
+  "timeline": {
+    "start_date": "2025-04-01",
+    "proposed_completion": "2028-03-31"
+  },
+  "construction_metrics": {
+    "total_land_area_sq_m": 6367,
+    "total_covered_area_sq_m": 4715,
+    "total_open_area_sq_m": 6309,
+    "development_carried_till_date_pct": 15.0,
+    "development_pending_pct": 85.0
+  },
+  "financials": {
+    "estimated_construction_cost": 4005,
+    "land_cost": 9600,
+    "total_project_cost": 1781845781,
+    "amount_collected_from_allottees": 2783511,
+    "amount_used_for_development": 148569410
+  },
+  "escrow_account": {
+    "bank_name": "HDFC",
+    "branch": "Mahadevapura Branch",
+    "ifsc": "HDFC0001045",
+    "account_number": "57500001761770"
+  },
+  "inventory": {
+    "parking_for_sale_count": 202,
+    "parking_area_sq_m": 22958.0,
+    "garages_for_sale": 0,
+    "flats": [
+      {
+        "flat_number": "F-930",
+        "area_sq_m": 88.04,
+        "price": 4344000
+      },
+      {
+        "flat_number": "F-433",
+        "area_sq_m": 117.54,
+        "price": 6858000
+      },
+      {
+        "flat_number": "F-854",
+        "area_sq_m": 46.55,
+        "price": 8266000
+      },
+      {
+        "flat_number": "F-142",
+        "area_sq_m": 47.6,
+        "price": 2358000
+      },
+      {
+        "flat_number": "F-321",
+        "area_sq_m": 84.53,
+        "price": 5832000
+      },
+      {
+        "flat_number": "F-458",
+        "area_sq_m": 119.37,
+        "price": 3029000
+      },
+      {
+        "flat_number": "F-568",
+        "area_sq_m": 72.32,
+        "price": 9320000
+      },
+      {
+        "flat_number": "F-929",
+        "area_sq_m": 96.09,
+        "price": 1540000
+      },
+      {
+        "flat_number": "F-992",
+        "area_sq_m": 44.46,
+        "price": 7393000
+      },
+      {
+        "flat_number": "F-615",
+        "area_sq_m": 105.68,
+        "price": 3924000
+      },
+      {
+        "flat_number": "F-919",
+        "area_sq_m": 88.3,
+        "price": 4827000
+      },
+      {
+        "flat_number": "F-119",
+        "area_sq_m": 71.96,
+        "price": 6771000
+      },
+      {
+        "flat_number": "F-369",
+        "area_sq_m": 59.65,
+        "price": 6618000
+      },
+      {
+        "flat_number": "F-187",
+        "area_sq_m": 133.22,
+        "price": 14044229
+      },
+      {
+        "flat_number": "F-693",
+        "area_sq_m": 72.86,
+        "price": 4549259
+      },
+      {
+        "flat_number": "F-949",
+        "area_sq_m": 41.44,
+        "price": 10510813
+      },
+      {
+        "flat_number": "F-274",
+        "area_sq_m": 46.45,
+        "price": 4035074
+      },
+      {
+        "flat_number": "F-417",
+        "area_sq_m": 143.56,
+        "price": 2880102
+      },
+      {
+        "flat_number": "F-544",
+        "area_sq_m": 69.29,
+        "price": 5888609
+      },
+      {
+        "flat_number": "F-635",
+        "area_sq_m": 100.69,
+        "price": 12043034
+      },
+      {
+        "flat_number": "F-298",
+        "area_sq_m": 64.78,
+        "price": 1896506
+      },
+      {
+        "flat_number": "F-840",
+        "area_sq_m": 48.58,
+        "price": 6040288
+      },
+      {
+        "flat_number": "F-501",
+        "area_sq_m": 82.48,
+        "price": 3726031
+      },
+      {
+        "flat_number": "F-163",
+        "area_sq_m": 99.08,
+        "price": 2801333
+      },
+      {
+        "flat_number": "F-239",
+        "area_sq_m": 123.75,
+        "price": 3586724
+      },
+      {
+        "flat_number": "F-198",
+        "area_sq_m": 80.37,
+        "price": 1879533
+      },
+      {
+        "flat_number": "F-904",
+        "area_sq_m": 143.41,
+        "price": 6796942
+      },
+      {
+        "flat_number": "F-703",
+        "area_sq_m": 90.92,
+        "price": 3230271
+      },
+      {
+        "flat_number": "F-660",
+        "area_sq_m": 79.44,
+        "price": 10250064
+      },
+      {
+        "flat_number": "F-173",
+        "area_sq_m": 71.55,
+        "price": 8067217
+      },
+      {
+        "flat_number": "F-905",
+        "area_sq_m": 122.87,
+        "price": 1302229
+      }
+    ]
+  }
+}

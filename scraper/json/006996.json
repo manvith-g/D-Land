@@ -1,0 +1,180 @@
+{
+  "metadata": {
+    "acknowledgement_number": "PRM/KA/RERA/7873/124/PR/359535/9672",
+    "registration_number": "PRM/KA/RERA/1251/310/PR/200312/006996",
+    "document_type": "Project Registration Details"
+  },
+  "project_identity": {
+    "project_name": "DSR THE ADDRESS",
+    "project_type": "Residential/Group Housing",
+    "project_status": "New",
+    "approving_authority": "BDA - Bangalore Development Authority Approved Plan Number : 18/24-25 Plan Approval Date : 18-07-2024 Have you applied for RERA Registration for the same Plan ? : NO Total Number of Inventories/Flats/V illas : 702"
+  },
+  "promoter_info": {
+    "name": "DSR INFRAPROJECTS",
+    "type": "Partnership",
+    "pan": "AAPFD6671B",
+    "authorized_signatory": "K S SA TYANARA YA REDDY"
+  },
+  "timeline": {
+    "start_date": "2024-07-25",
+    "proposed_completion": "2029-06-12"
+  },
+  "construction_metrics": {
+    "total_land_area_sq_m": 3557,
+    "total_covered_area_sq_m": 8569,
+    "total_open_area_sq_m": 8032,
+    "development_carried_till_date_pct": 7470,
+    "development_pending_pct": 7628
+  },
+  "financials": {
+    "estimated_construction_cost": 494,
+    "land_cost": 271,
+    "total_project_cost": 6866300000,
+    "amount_collected_from_allottees": 1653058,
+    "amount_used_for_development": 7527294
+  },
+  "escrow_account": {
+    "bank_name": "STATE BANK OF INDIA",
+    "branch": "ifb ind bank",
+    "ifsc": "SBIN0020743",
+    "account_number": "43701894424"
+  },
+  "inventory": {
+    "parking_for_sale_count": 938,
+    "parking_area_sq_m": 12898.0,
+    "garages_for_sale": 0,
+    "flats": [
+      {
+        "flat_number": "F-617",
+        "area_sq_m": 114.53,
+        "price": 6405000
+      },
+      {
+        "flat_number": "F-786",
+        "area_sq_m": 62.27,
+        "price": 8308000
+      },
+      {
+        "flat_number": "F-576",
+        "area_sq_m": 65.72,
+        "price": 1995000
+      },
+      {
+        "flat_number": "F-360",
+        "area_sq_m": 85.09,
+        "price": 4729000
+      },
+      {
+        "flat_number": "F-522",
+        "area_sq_m": 74.57,
+        "price": 466000
+      },
+      {
+        "flat_number": "F-576",
+        "area_sq_m": 40.4,
+        "price": 5908000
+      },
+      {
+        "flat_number": "F-584",
+        "area_sq_m": 51.07,
+        "price": 3441000
+      },
+      {
+        "flat_number": "F-854",
+        "area_sq_m": 48.7,
+        "price": 5942000
+      },
+      {
+        "flat_number": "F-912",
+        "area_sq_m": 71.79,
+        "price": 3365000
+      },
+      {
+        "flat_number": "F-555",
+        "area_sq_m": 96.39,
+        "price": 5818000
+      },
+      {
+        "flat_number": "F-291",
+        "area_sq_m": 110.34,
+        "price": 3434000
+      },
+      {
+        "flat_number": "F-528",
+        "area_sq_m": 123.29,
+        "price": 6204908
+      },
+      {
+        "flat_number": "F-798",
+        "area_sq_m": 148.07,
+        "price": 12152650
+      },
+      {
+        "flat_number": "F-492",
+        "area_sq_m": 60.62,
+        "price": 13854485
+      },
+      {
+        "flat_number": "F-327",
+        "area_sq_m": 73.64,
+        "price": 8917547
+      },
+      {
+        "flat_number": "F-452",
+        "area_sq_m": 87.44,
+        "price": 9550033
+      },
+      {
+        "flat_number": "F-565",
+        "area_sq_m": 82.52,
+        "price": 11083398
+      },
+      {
+        "flat_number": "F-613",
+        "area_sq_m": 123.04,
+        "price": 2330513
+      },
+      {
+        "flat_number": "F-478",
+        "area_sq_m": 60.9,
+        "price": 9199646
+      },
+      {
+        "flat_number": "F-651",
+        "area_sq_m": 98.63,
+        "price": 13712196
+      },
+      {
+        "flat_number": "F-788",
+        "area_sq_m": 107.6,
+        "price": 14801909
+      },
+      {
+        "flat_number": "F-234",
+        "area_sq_m": 105.13,
+        "price": 3322617
+      },
+      {
+        "flat_number": "F-278",
+        "area_sq_m": 44.5,
+        "price": 4130432
+      },
+      {
+        "flat_number": "F-942",
+        "area_sq_m": 106.67,
+        "price": 6077332
+      },
+      {
+        "flat_number": "F-527",
+        "area_sq_m": 118.49,
+        "price": 4597819
+      },
+      {
+        "flat_number": "F-445",
+        "area_sq_m": 102.67,
+        "price": 10396193
+      }
+    ]
+  }
+}
