@@ -59,7 +59,8 @@ export default function SellProperty() {
       const isFlat = tab === 'flat'
       const payload = {
         rera_id: isFlat ? flatForm.reraId : landForm.surveyNo,
-        seller_mnemonic: isFlat ? flatForm.sellerMnemonic : landForm.sellerMnemonic
+        seller_mnemonic: isFlat ? flatForm.sellerMnemonic : landForm.sellerMnemonic,
+        price: isFlat ? flatForm.price : landForm.price
       }
 
       const response = await fetch('http://127.0.0.1:5000/api/tokenise', {

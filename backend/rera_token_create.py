@@ -177,29 +177,9 @@ def create_and_transfer_asa(
     result = _wait_for_confirmation(create_txid)
     asset_id = result["asset-index"]
 
-    # ── 3b. Seller opt-in (0-amount xfer to self) ───────────
-    optin_txn = transaction.AssetTransferTxn(
-        sender=seller_address,
-        sp=params,
-        receiver=seller_address,
-        amt=0,
-        index=asset_id,
-    )
-    signed_optin = optin_txn.sign(seller_sk)
-    optin_txid = algod_client.send_transaction(signed_optin)
-    _wait_for_confirmation(optin_txid)
-
-    # ── 3c. Transfer ASA from creator → seller ──────────────
-    xfer_txn = transaction.AssetTransferTxn(
-        sender=CREATOR_ADDR,
-        sp=params,
-        receiver=seller_address,
-        amt=1,
-        index=asset_id,
-    )
-    signed_xfer = xfer_txn.sign(CREATOR_SK)
-    xfer_txid = algod_client.send_transaction(signed_xfer)
-    _wait_for_confirmation(xfer_txid)
+    # ASA stays in CREATOR wallet. During escrow, the backend will
+    # transfer it directly to the escrow address using CREATOR_SK.
+    # No seller opt-in or transfer needed.
 
     return {"asset_id": asset_id, "flat_index": flat_index}
 
@@ -207,7 +187,7 @@ def create_and_transfer_asa(
 # ──────────────────────────────────────────────
 #  4 ▸ ORCHESTRATOR – end-to-end pipeline
 # ──────────────────────────────────────────────
-def tokenise_rera(rera_id: str, seller_mnemonic: str) -> dict:
+def tokenise_rera(rera_id: str, seller_mnemonic: str, price: float = 0.0) -> dict:
     """
     Full pipeline:
       fetch → pin → create N ASAs → transfer to seller.
@@ -248,6 +228,18 @@ def tokenise_rera(rera_id: str, seller_mnemonic: str) -> dict:
             seller_sk=seller_sk,
         )
         created_assets.append(asset_info)
+        
+        # Insert into property_listings
+        try:
+            supabase.table("property_listings").insert({
+                "rera_id": rera_id,
+                "asset_id": asset_info["asset_id"],
+                "seller_wallet": seller_address,
+                "price": float(price),
+                "status": "listed"
+            }).execute()
+        except Exception as e:
+            print(f"Failed to insert listing for ASA {asset_info['asset_id']}: {e}")
 
     return {
         "rera_id": rera_id,
