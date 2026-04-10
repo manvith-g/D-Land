@@ -1,0 +1,22 @@
+/* Ownership Check CSS */
+
+.own-page { }
+
+/* Results styles already mostly covered by utilities in SellProperty.css, 
+   but adding specific spacing/coloring for Ownership results here */
+
+.border-success-border { border-color: rgba(22, 163, 74, 0.4); }
+.border-warning-border { border-color: var(--clr-warning-border); }
+
+.bg-warning-bg { background: var(--clr-warning-bg); }
+.text-warning { color: var(--clr-warning); }
+
+.pl-40 { padding-left: 40px; }
+
+/* Review grid within result card */
+.grid-2.gap-32 { gap: 32px; }
+
+@media (max-width: 768px) {
+  .gap-32 { gap: 16px; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
