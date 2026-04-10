@@ -1,0 +1,123 @@
+/* SellerDashboard.css — shared dashboard styles */
+.dash { padding: 40px 0 80px; }
+.dash-header { margin-bottom: 28px; }
+.dash-header .subtitle { margin-top: 4px; }
+
+.dash-guard {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 16px; min-height: 60vh; text-align: center;
+}
+.dash-guard div:first-child { font-size: 3rem; }
+.dash-guard h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; color: #e8eaf6; }
+.dash-loading { display:flex; justify-content:center; align-items:center; min-height:200px; }
+
+/* Tabs */
+.dash-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 32px;
+  overflow-x: auto;
+}
+.dash-tab {
+  padding: 10px 20px;
+  border-radius: 10px 10px 0 0;
+  font-size: 0.88rem;
+  font-weight: 500;
+  background: transparent;
+  color: #64748b;
+  border: 1px solid transparent;
+  border-bottom: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.dash-tab:hover { color: #e8eaf6; background: rgba(255,255,255,0.04); }
+.dash-tab.active {
+  color: #a5b4fc;
+  background: rgba(108,99,255,0.1);
+  border-color: rgba(108,99,255,0.2);
+}
+
+/* Step cards */
+.seller-list-tab { display: flex; flex-direction: column; gap: 20px; }
+
+.seller-step-card {
+  background: linear-gradient(145deg,#1a2236,#141b2e);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  transition: border-color 0.25s;
+}
+.seller-step-card.active { border-color: rgba(108,99,255,0.25); }
+
+.seller-step-num {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg,#6c63ff,#8b5cf6);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.9rem; color: #fff;
+  flex-shrink: 0;
+}
+.seller-step-content { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.seller-step-content h3 { font-family: 'Space Grotesk',sans-serif; font-weight:600; color:#e8eaf6; }
+.seller-step-content p  { font-size:0.86rem; color:#94a3b8; }
+
+.seller-lookup-row { display: flex; gap: 10px; }
+
+.seller-hint {
+  font-size: 0.78rem; color: #64748b;
+}
+.seller-hint code {
+  color: #a5b4fc; cursor: pointer; background: rgba(108,99,255,0.08);
+  padding: 1px 6px; border-radius: 4px;
+  font-family: monospace;
+}
+.seller-hint code:hover { background: rgba(108,99,255,0.2); }
+
+/* Land record card */
+.land-record-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 16px;
+}
+.land-record-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 20px;
+}
+.record-field-label { font-size:0.74rem; color:#64748b; text-transform:uppercase; letter-spacing:.05em; margin-bottom:2px; }
+.record-field-value { font-size:0.9rem; color:#e8eaf6; font-weight:500; }
+.record-field-value.highlight { color:#a5b4fc; font-weight:600; }
+
+/* Listing form */
+.seller-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width:600px) { .seller-form-grid { grid-template-columns: 1fr; } }
+
+/* My listings */
+.my-listings-grid { display: flex; flex-direction: column; gap: 14px; }
+.my-listing-card  { display: flex; flex-direction: column; }
+
+/* Requests grid */
+.requests-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+
+/* Empty */
+.dash-empty { display:flex; flex-direction:column; align-items:center; gap:12px; min-height:200px;
+  justify-content:center; color:#64748b; text-align:center; }
+.dash-empty span { font-size:2.5rem; }
+
+/* Success */
+.dash-success {
+  display:flex; flex-direction:column; align-items:center; gap:16px;
+  text-align:center; padding:60px 20px;
+}
+.dash-success-icon { font-size:4rem; }
+.dash-success h2   { font-family:'Space Grotesk',sans-serif; font-size:1.6rem; color:#e8eaf6; }
+.dash-success p    { color:#94a3b8; max-width:460px; line-height:1.7; }

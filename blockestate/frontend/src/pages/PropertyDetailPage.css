@@ -1,0 +1,107 @@
+/* PropertyDetailPage.css */
+.prop-loading {
+  display:flex; align-items:center; justify-content:center;
+  min-height:60vh;
+}
+.prop-detail { padding: 32px 0 80px; }
+.prop-back   { margin-bottom: 24px; }
+
+.prop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .prop-grid { grid-template-columns: 1fr; }
+}
+
+/* Image */
+.prop-image-wrap {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.prop-image {
+  width:100%; height:100%;
+  object-fit: cover;
+}
+.prop-state-overlay {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+.prop-explorer-link {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.83rem;
+  color: #6c63ff;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(108,99,255,0.07);
+  border: 1px solid rgba(108,99,255,0.15);
+  transition: all 0.2s;
+}
+.prop-explorer-link:hover { background: rgba(108,99,255,0.15); }
+
+/* Info col */
+.prop-info-col { display: flex; flex-direction: column; gap: 18px; }
+
+.prop-breadcrumb { display: flex; gap: 8px; flex-wrap: wrap; }
+.prop-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  color: #e8eaf6;
+  line-height: 1.25;
+}
+.prop-location { font-size: 0.9rem; color: #94a3b8; }
+
+/* Meta grid */
+.prop-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 16px;
+}
+.prop-meta-item {}
+.prop-mono { font-family: monospace; font-size:0.85rem; color:#a5b4fc; }
+
+/* CTA box */
+.prop-cta-box {
+  background: linear-gradient(145deg,#1a2236,#141b2e);
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.prop-price { display:flex; flex-direction:column; gap:4px; }
+.prop-price-algo {
+  font-family: 'Space Grotesk',sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg,#6c63ff,#8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.prop-price-inr { font-size:0.85rem; color:#64748b; }
+
+.prop-sold-msg {
+  text-align:center; padding:12px; background:rgba(239,68,68,0.08);
+  border:1px solid rgba(239,68,68,0.2); border-radius:10px; color:#ef4444;
+  font-size:0.88rem;
+}
+.prop-owner-msg {
+  text-align:center; padding:12px; background:rgba(108,99,255,0.08);
+  border:1px solid rgba(108,99,255,0.2); border-radius:10px; color:#a5b4fc;
+  font-size:0.88rem;
+}
