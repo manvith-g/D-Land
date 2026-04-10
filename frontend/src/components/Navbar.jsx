@@ -35,8 +35,8 @@ export default function Navbar() {
   const isActive = (path) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path)
 
-  const handleDisconnect = () => {
-    disconnect()
+  const handleDisconnect = async () => {
+    await disconnect()
     setDropOpen(false)
     navigate('/')
   }
@@ -108,10 +108,12 @@ export default function Navbar() {
                     )}
                   </div>
 
-                  <div className="wdrop-balance">
-                    <Zap size={12} />
-                    <span>{wallet.algo_balance.toLocaleString()} ALGO</span>
-                  </div>
+                  {wallet.algo_balance > 0 && (
+                    <div className="wdrop-balance">
+                      <Zap size={12} />
+                      <span>{wallet.algo_balance.toLocaleString()} ALGO</span>
+                    </div>
+                  )}
 
                   <div className="divider my-8" />
 
