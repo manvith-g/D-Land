@@ -41,20 +41,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="hero-stats">
-              <div className="hs-item">
-                <div className="hs-val">₹120Cr+</div>
-                <div className="hs-lbl">Total Volume</div>
-              </div>
-              <div className="hs-item">
-                <div className="hs-val">450+</div>
-                <div className="hs-lbl">Tokenized Assets</div>
-              </div>
-              <div className="hs-item">
-                <div className="hs-val">0</div>
-                <div className="hs-lbl">Escrow Frauds</div>
-              </div>
-            </div>
+            
           </div>
 
           <div className="hero-visual anim-fade-2">
@@ -133,25 +120,7 @@ export default function Home() {
       </section>
 
       {/* ── Featured Properties ── */}
-      <section className="section">
-        <div className="container">
-          <div className="flex items-center justify-between mb-8" style={{ marginBottom: 32 }}>
-            <div>
-              <h2 className="section-title">Featured Properties</h2>
-              <p className="section-sub">Explore some of our premium verified listings.</p>
-            </div>
-            <Link to="/marketplace" className="btn btn-outline">
-              View All <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          <div className="grid-3 anim-fade-1">
-            {featured.map(prop => (
-              <PropertyCard key={prop.id} property={prop} />
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* ── Why Trust Us ── */}
       <section className="section bg-light border-y">
