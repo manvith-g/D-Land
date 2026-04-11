@@ -176,35 +176,37 @@ def simulate_lock_payment(escrow_id: str):
     update_escrow_status(escrow_id, {"payment_locked": True, "status": "payment_locked"})
     check_settlement(escrow_id)
 
-def lock_token_server_side(escrow_id: str):
+def build_lock_token_txn_b64(escrow_id: str) -> str:
     """
-    Server-side token lock: transfers ASA from CREATOR wallet
-    to the escrow address. No user signing needed — the backend
-    controls the CREATOR key which holds the ASA after minting.
+    Builds an unsigned AssetTransferTxn for the SELLER to send the ASA
+    to the escrow address.
+    Returns Base64-encoded msgpack bytes ready for Pera Wallet signing.
     """
     escrow = get_escrow_details(escrow_id)
     asset_id = int(escrow["asset_id"])
     escrow_addr = escrow["escrow_address"]
+    seller_addr = escrow["seller_wallet"]
     
     params = algod_client.suggested_params()
     
-    # Transfer ASA from CREATOR → Escrow
+    # Transfer ASA from SELLER → Escrow
     xfer_txn = transaction.AssetTransferTxn(
-        sender=CREATOR_ADDR,
+        sender=seller_addr,
         sp=params,
         receiver=escrow_addr,
         amt=1,
         index=asset_id
     )
-    stxn = xfer_txn.sign(CREATOR_SK)
-    txid = algod_client.send_transaction(stxn)
-    _wait_for_confirmation(txid)
     
-    # Update DB
-    update_escrow_status(escrow_id, {"token_locked": True, "status": "token_locked"})
-    check_settlement(escrow_id)
-    
-    return txid
+    # msgpack_encode returns a base64 string of raw msgpack bytes
+    return encoding.msgpack_encode(xfer_txn)
+
+def check_if_opted_in(addr: str, asset_id: int) -> bool:
+    try:
+        algod_client.account_asset_info(addr, asset_id)
+        return True
+    except Exception as e:
+        return False
 
 def build_lock_payment_txn_b64(escrow_id: str) -> list:
     """
@@ -219,16 +221,7 @@ def build_lock_payment_txn_b64(escrow_id: str) -> list:
     
     params = algod_client.suggested_params()
     
-    # 1. OPT-IN Transaction
-    txn_opt = transaction.AssetTransferTxn(
-        sender=buyer_addr,
-        sp=params,
-        receiver=buyer_addr, # Self receive for opt-in
-        amt=0,
-        index=asset_id
-    )
-    
-    # 2. PAYMENT Transaction
+    # PAYMENT Transaction
     txn_pay = transaction.PaymentTxn(
         sender=buyer_addr,
         sp=params,
@@ -236,14 +229,30 @@ def build_lock_payment_txn_b64(escrow_id: str) -> list:
         amt=amount_microalgos
     )
     
-    gid = transaction.calculate_group_id([txn_opt, txn_pay])
-    txn_opt.group = gid
-    txn_pay.group = gid
-    
-    return [
-        encoding.msgpack_encode(txn_opt),
-        encoding.msgpack_encode(txn_pay)
-    ]
+    needs_opt_in = not check_if_opted_in(buyer_addr, asset_id)
+
+    if needs_opt_in:
+        # OPT-IN Transaction
+        txn_opt = transaction.AssetTransferTxn(
+            sender=buyer_addr,
+            sp=params,
+            receiver=buyer_addr, # Self receive for opt-in
+            amt=0,
+            index=asset_id
+        )
+        
+        gid = transaction.calculate_group_id([txn_opt, txn_pay])
+        txn_opt.group = gid
+        txn_pay.group = gid
+        
+        return [
+            encoding.msgpack_encode(txn_opt),
+            encoding.msgpack_encode(txn_pay)
+        ]
+    else:
+        return [
+            encoding.msgpack_encode(txn_pay)
+        ]
 
 def submit_signed_lock(escrow_id: str, signed_b64: str, lock_type: str):
     """Takes a Pera-signed msgpack transaction, submits it, and triggers settlement."""
@@ -310,11 +319,8 @@ def execute_atomic_swap(escrow: Dict[str, Any]):
     stx1 = transaction.LogicSigTransaction(tx1, lsig)
     
     # Fire off to Algorand network
-    try:
-        txid = algod_client.send_transactions([stx0, stx1])
-        _wait_for_confirmation(txid)
-    except Exception as e:
-        print(f"Bypassing Atomic Validation for DEMO (missing real frontend signatures): {e}")
+    txid = algod_client.send_transactions([stx0, stx1])
+    _wait_for_confirmation(txid)
     
     # Update DB statuses upon successful validation by node
     update_escrow_status(escrow["id"], {

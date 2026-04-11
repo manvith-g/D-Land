@@ -117,7 +117,7 @@ def get_listings():
 from escrow_service import (
     create_escrow_contract, get_escrow_details, update_escrow_status,
     simulate_lock_token, simulate_lock_payment,
-    lock_token_server_side, build_lock_payment_txn_b64, submit_signed_lock
+    build_lock_token_txn_b64, build_lock_payment_txn_b64, submit_signed_lock
 )
 
 @app.route("/api/buy-request", methods=["POST"])
@@ -227,12 +227,12 @@ def get_escrow_detail(id: str):
     except Exception as exc:
         return jsonify({"success": False, "error": str(exc)}), 500
 
-@app.route("/api/escrow/lock-token/<id>", methods=["POST"])
-def lock_token_route(id: str):
-    """Server-side ASA lock. Backend transfers ASA from CREATOR → Escrow."""
+@app.route("/api/escrow/build-lock-token-tx/<id>", methods=["GET"])
+def build_lock_token_tx(id: str):
+    """Builds an unsigned ASA transfer transaction for the Seller's Pera wallet"""
     try:
-        txid = lock_token_server_side(id)
-        return jsonify({"success": True, "txid": txid}), 200
+        b64_msgpack = build_lock_token_txn_b64(id)
+        return jsonify({"success": True, "data": b64_msgpack}), 200
     except Exception as exc:
         return jsonify({"success": False, "error": str(exc)}), 500
 
@@ -249,7 +249,7 @@ def submit_signed_lock_route():
     body = request.get_json(force=True, silent=True)
     escrow_id = body.get("escrow_id")
     signed_b64 = body.get("signed_b64")
-    lock_type = body.get("type") # "token" or "payment"
+    lock_type = body.get("lock_type") # "token" or "payment"
     try:
         submit_signed_lock(escrow_id, signed_b64, lock_type)
         return jsonify({"success": True}), 200

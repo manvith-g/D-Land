@@ -177,9 +177,30 @@ def create_and_transfer_asa(
     result = _wait_for_confirmation(create_txid)
     asset_id = result["asset-index"]
 
-    # ASA stays in CREATOR wallet. During escrow, the backend will
-    # transfer it directly to the escrow address using CREATOR_SK.
-    # No seller opt-in or transfer needed.
+    # Step 3. Opt-in the seller to the newly minted ASA
+    params = algod_client.suggested_params()
+    opt_in_txn = transaction.AssetTransferTxn(
+        sender=seller_address,
+        sp=params,
+        receiver=seller_address,
+        amt=0,
+        index=asset_id
+    )
+    stxn_opt = opt_in_txn.sign(seller_sk)
+    txid_opt = algod_client.send_transaction(stxn_opt)
+    _wait_for_confirmation(txid_opt)
+
+    # Step 4. Transfer the ASA from Creator to Seller
+    xfer_txn = transaction.AssetTransferTxn(
+        sender=CREATOR_ADDR,
+        sp=params,
+        receiver=seller_address,
+        amt=1,
+        index=asset_id
+    )
+    stxn_xfer = xfer_txn.sign(CREATOR_SK)
+    txid_xfer = algod_client.send_transaction(stxn_xfer)
+    _wait_for_confirmation(txid_xfer)
 
     return {"asset_id": asset_id, "flat_index": flat_index}
 

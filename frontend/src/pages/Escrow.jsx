@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect,useRef } from 'react'
 import {
   Lock, CheckCircle, ArrowRight, Zap, Shield, AlertCircle,
   Clock, Building2, ArrowLeft, ExternalLink, RefreshCw
@@ -27,6 +27,7 @@ export default function Escrow() {
   const [property, setProperty] = useState(null)
   const [loading, setLoading] = useState(true)
   const [actionDone, setActionDone] = useState('')
+  const actionRunning = useRef(false)
 
   useEffect(() => {
     if (!id) return;
@@ -50,19 +51,51 @@ export default function Escrow() {
   const currentStage = STAGE_INDEX[escrow?.status] ?? 0
 
   const action = async (type) => {
+    if (actionRunning.current) return;
+    actionRunning.current = true;
     setLoading(true)
     try {
       if (type === 'token') {
-        // Server-side action: backend holds the ASA in the creator wallet,
-        // so it transfers the ASA to escrow without needing seller's Pera signature.
-        const res = await fetch(`http://127.0.0.1:5000/api/escrow/lock-token/${id}`, {
-          method: 'POST'
+        const res = await fetch(`http://127.0.0.1:5000/api/escrow/build-lock-token-tx/${id}`)
+        const d = await res.json()
+        if(!d.success) throw new Error(d.error)
+
+        // Decode msgpack base64 payload
+        const binaryString = window.atob(d.data)
+        const txnBytes = new Uint8Array(binaryString.length)
+        for (let i = 0; i < binaryString.length; i++) {
+          txnBytes[i] = binaryString.charCodeAt(i)
+        }
+        const txn = algosdk.decodeUnsignedTransaction(txnBytes)
+
+        // Local wallet Signature
+        const signedTxnGroup = await peraWallet.signTransaction([
+          [{ txn: txn, signers: [wallet.address] }]
+        ])
+        
+        // Construct Signed Base64 Payload
+        const signedBytes = signedTxnGroup[0]
+        let binaryResult = ''
+        for (let i = 0; i < signedBytes.byteLength; i++) {
+          binaryResult += String.fromCharCode(signedBytes[i])
+        }
+        const signedB64 = window.btoa(binaryResult)
+
+        // Ship it!
+        const submitRes = await fetch(`http://127.0.0.1:5000/api/escrow/submit-signed-lock`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            escrow_id: id,
+            signed_b64: signedB64,
+            lock_type: type
+          })
         })
-        const data = await res.json()
-        if (data.success) {
+        const submitData = await submitRes.json()
+        if(submitData.success) {
           setActionDone(type)
         } else {
-          alert(`Failed to lock token: ${data.error}`)
+          throw new Error(submitData.error)
         }
       } else {
         // Payment happens via the Buyer's Pera Wallet
@@ -108,7 +141,7 @@ export default function Escrow() {
         const submitRes = await fetch(`http://127.0.0.1:5000/api/escrow/submit-signed-lock`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ escrow_id: id, signed_b64: signedB64, type })
+          body: JSON.stringify({ escrow_id: id, signed_b64: signedB64, lock_type: type })
         })
         
         const submitData = await submitRes.json()
@@ -120,13 +153,14 @@ export default function Escrow() {
       }
     } catch(e) {
       console.error(e)
-      if (e?.data?.type === 'CONNECT_MODAL_CLOSED') {
-        alert("Wallet signature cancelled.")
+      if (e?.data?.type === 'CONNECT_MODAL_CLOSED' || e?.message?.includes('Another transaction in progress')) {
+        alert("Wallet signature error. If Pera Wallet is stuck with 'Another transaction in progress', disconnect your Pera session and try reloading!")
       } else {
         alert("Error processing lock: " + (e.message || e))
       }
     } finally {
       setLoading(false)
+      actionRunning.current = false
     }
   }
 
@@ -194,26 +228,28 @@ export default function Escrow() {
                               {/* Stage 0 (Initiated): Lock Token needed */}
                               {sid === 'initiated' && !actionDone && (
                                 <button
-                                  className="btn btn-primary btn-sm"
+                                  className={`btn btn-sm ${isSeller ? 'btn-primary' : 'btn-outline'}`}
                                   onClick={() => action('token')}
-                                  disabled={loading}
+                                  disabled={loading || !isSeller}
                                   id="btn-lock-token"
                                 >
                                   {loading ? <><div className="spinner" style={{ width: 14, height: 14 }} /> Locking…</>
-                                    : <><Lock size={13} /> Lock Property Token {!isSeller && '(Seller Action)'}</>}
+                                    : !isSeller ? <><Lock size={13} /> Waiting for Seller...</> 
+                                    : <><Lock size={13} /> Lock Property Token</>}
                                 </button>
                               )}
 
                               {/* Stage 1 (Token Locked): Lock Payment needed */}
                               {sid === 'token_locked' && !actionDone && (
                                 <button
-                                  className="btn btn-primary btn-sm"
+                                  className={`btn btn-sm ${isBuyer ? 'btn-primary' : 'btn-outline'}`}
                                   onClick={() => action('payment')}
-                                  disabled={loading}
+                                  disabled={loading || !isBuyer}
                                   id="btn-lock-payment"
                                 >
                                   {loading ? <><div className="spinner" style={{ width: 14, height: 14 }} /> Processing…</>
-                                    : <><Zap size={13} /> Lock Payment {!isBuyer && '(Buyer Action)'}</>}
+                                    : !isBuyer ? <><Zap size={13} /> Waiting for Buyer...</>
+                                    : <><Zap size={13} /> Lock Payment</>}
                                 </button>
                               )}
 
