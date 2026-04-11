@@ -15,7 +15,7 @@ export default function SellProperty() {
   const [verifiedData, setVerifiedData] = useState(null)
 
   // Flat form
-  const [flatForm, setFlatForm] = useState({ reraId: '', flatNo: '', price: '', sellerMnemonic: '' })
+  const [flatForm, setFlatForm] = useState({ reraId: '', flatNo: '1', price: '', sellerMnemonic: '' })
 
   // Land form
   const [landForm, setLandForm] = useState({ surveyNo: '', price: '', sellerMnemonic: '' })
@@ -123,10 +123,7 @@ export default function SellProperty() {
                         <label className="form-label">RERA Registration ID <span>*</span></label>
                         <input required type="text" className="form-input" placeholder="e.g. P519000..." value={flatForm.reraId} onChange={e => setFlatForm({ ...flatForm, reraId: e.target.value })} />
                       </div>
-                      <div className="form-group">
-                        <label className="form-label">Flat / Unit Number <span>*</span></label>
-                        <input required type="text" className="form-input" placeholder="e.g. B-1204" value={flatForm.flatNo} onChange={e => setFlatForm({ ...flatForm, flatNo: e.target.value })} />
-                      </div>
+
                     </div>
                     <div className="form-group mb-16">
                       <label className="form-label">Algorand Mnemonic (Demo Signer) <span>*</span></label>
@@ -134,7 +131,7 @@ export default function SellProperty() {
                       <div className="text-xs text-gray mt-4">We need this to sign the ASA opt-in securely. Never share a real mnemonic!</div>
                     </div>
                     <div className="form-group mb-24">
-                      <label className="form-label">Asking Price (₹) <span>*</span></label>
+                      <label className="form-label">Asking Price (algo) <span>*</span></label>
                       <input required type="number" className="form-input text-lg" placeholder="e.g. 15000000" value={flatForm.price} onChange={e => setFlatForm({ ...flatForm, price: e.target.value })} />
                     </div>
                   </>
@@ -150,7 +147,7 @@ export default function SellProperty() {
                       <div className="text-xs text-gray mt-4">We need this to sign the ASA opt-in securely. Never share a real mnemonic!</div>
                     </div>
                     <div className="form-group mb-24">
-                      <label className="form-label">Asking Price (₹) <span>*</span></label>
+                      <label className="form-label">Asking Price (algo) <span>*</span></label>
                       <input required type="number" className="form-input text-lg" placeholder="e.g. 5000000" value={landForm.price} onChange={e => setLandForm({ ...landForm, price: e.target.value })} />
                     </div>
                   </>
@@ -203,7 +200,7 @@ export default function SellProperty() {
                 </div>
                 <div>
                   <div className="text-gray uppercase text-xs font-bold mb-4">Asking Price</div>
-                  <div className="font-bold font-display text-lg">₹ {Number(tab === 'flat' ? flatForm.price : landForm.price).toLocaleString('en-IN')}</div>
+                  <div className="font-bold font-display text-lg"> {Number(tab === 'flat' ? flatForm.price : landForm.price).toLocaleString('en-IN')}</div>
                 </div>
               </div>
 

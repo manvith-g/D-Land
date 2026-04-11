@@ -82,9 +82,9 @@ export const PURCHASE_REQUESTS = [
 
 // Helpers
 export const formatPrice = (n) => {
-  if (n >= 10000000) return `₹${(n / 10000000).toFixed(2)} Cr`
-  if (n >= 100000)   return `₹${(n / 100000).toFixed(2)} L`
-  return `₹${n.toLocaleString('en-IN')}`
+  if (n >= 10000000) return `${(n / 10000000).toFixed(2)} Cr`
+  if (n >= 100000)   return `${(n / 100000).toFixed(2)} L`
+  return `${n.toLocaleString('en-IN')}`
 }
 
 export const getStatusBadge = (status) => {
