@@ -271,7 +271,7 @@ export default function Activity() {
                             <div className="text-sm text-gray mono flex items-center gap-6"><Zap size={12}/> Contract: {e.escrow_address}</div>
                           </div>
                           <div className="text-right">
-                            <span className="badge badge-warning mb-8">Token Locked</span>
+                            <span className={`badge ${e.status === 'settled' ? 'badge-success' : 'badge-warning'} mb-8`}>{e.status === 'settled' ? 'Settled' : e.status === 'payment_locked' ? 'Payment Locked' : 'Token Locked'}</span>
                             <div className="font-bold">{formatPrice(e.amount)}</div>
                           </div>
                         </div>
@@ -283,7 +283,7 @@ export default function Activity() {
                            <div className={`flex-1 text-center py-8 text-xs font-bold ${e.payment_locked ? 'bg-success text-white' : 'bg-warning-bg text-warning border-y border-warning-border'}`}>
                              2. Payment Locked
                            </div>
-                           <div className="flex-1 text-center py-8 text-xs font-bold rounded-r-md bg-gray-200 text-gray">
+                           <div className={`flex-1 text-center py-8 text-xs font-bold rounded-r-md ${e.status === 'settled' ? 'bg-success text-white' : 'bg-gray-200 text-gray'}`}>
                              3. Settled
                            </div>
                         </div>

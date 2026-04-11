@@ -202,8 +202,8 @@ export default function Escrow() {
                 <h3>Transaction Lifecycle</h3>
                 <div className="et-stages">
                   {ESCROW_STAGES.map(({ id: sid, label, icon: Icon, desc }, i) => {
-                    const done   = i < currentStage
-                    const active = i === currentStage
+                    const done   = escrow?.status === 'settled' ? i <= currentStage : i < currentStage
+                    const active = escrow?.status === 'settled' ? false : i === currentStage
                     return (
                       <div key={sid} className={`et-stage ${done ? 'done' : ''} ${active ? 'active' : ''}`}>
                         <div className="et-stage-left">
