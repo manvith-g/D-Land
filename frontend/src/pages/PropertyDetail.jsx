@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   MapPin, CheckCircle, ShieldCheck, FileText, Maximize, Zap,
   AlertCircle, History, ExternalLink, User, Building2, Landmark
@@ -15,8 +15,56 @@ export default function PropertyDetail() {
   
   const [loading, setLoading] = useState(false)
   const [successMsg, setSuccessMsg] = useState('')
+  const [property, setProperty] = useState(null)
+  const [fetchLoading, setFetchLoading] = useState(true)
 
-  const property = PROPERTIES.find(p => p.id === id)
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/api/listings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const raw = data.data.find(x => x.id === id)
+          if (raw) {
+            const rera = raw.rera_records || {}
+            const isFlat = rera.no_of_flats > 0
+            setProperty({
+              id: raw.id,
+              type: isFlat ? 'flat' : 'land',
+              status: raw.status || 'listed',
+              title: `${isFlat ? 'Flat' : 'Land'} in ${rera.location_village || 'Unknown'}`,
+              location: {
+                locality: rera.location_village || 'Locality',
+                city: rera.location_district || 'City',
+                state: rera.location_state || 'State',
+                pincode: rera.location_pincode || '000000'
+              },
+              price: Number(raw.price),
+              description: raw.description || `Beautiful ${isFlat ? 'flat' : 'land'} located in ${rera.location_village || 'the area'}. Fully verified by government records.`,
+              area: rera.property_area || 1000,
+              area_unit: isFlat ? 'sq.ft' : 'sq.m',
+              bedrooms: isFlat ? 2 : 0,
+              bathrooms: isFlat ? 2 : 0,
+              floor: 1,
+              total_floors: 4,
+              amenities: ['Verified Asset', 'Clear Title', 'Smart Contract Ready'],
+              owner_wallet: raw.seller_wallet,
+              owner_name: rera.promoter_name || 'Promoter',
+              token_id: raw.asset_id,
+              ipfs_cid: 'bafyreiautr...',
+              rera_id: rera.rera_id,
+              survey_no: rera.survey_no || 'N/A',
+              kyc_verified: true
+            })
+          }
+        }
+      })
+      .catch(console.error)
+      .finally(() => setFetchLoading(false))
+  }, [id])
+
+  if (fetchLoading) {
+    return <div className="container text-center section"><div className="spinner mt-24"></div></div>
+  }
   
   if (!property) {
     return (
@@ -33,14 +81,29 @@ export default function PropertyDetail() {
 
   const handleInterest = async () => {
     if (!isConnected) return navigate('/')
-    if (wallet.kyc_status !== 'verified') {
-      alert("You must complete KYC first!")
-      return
+    try {
+      setLoading(true)
+      const res = await fetch('http://127.0.0.1:5000/api/buy-request', {
+        method: 'POST',
+        body: JSON.stringify({
+          listing_id: property.id,
+          buyer_wallet: wallet.address,
+          buyer_name: wallet.name || 'Anonymous',
+          amount: property.price
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSuccessMsg('Purchase request sent securely to the owner!')
+      } else {
+        alert("Could not send request: " + data.error)
+      }
+    } catch (e) {
+      console.error(e)
+      alert("Network error.")
+    } finally {
+      setLoading(false)
     }
-    setLoading(true)
-    await new Promise(r => setTimeout(r, 1500))
-    setLoading(false)
-    setSuccessMsg('Purchase request sent securely to the owner!')
   }
 
   return (
@@ -232,10 +295,10 @@ export default function PropertyDetail() {
                       onClick={handleInterest}
                       disabled={loading}
                     >
-                      {loading ? <><div className="spinner border-dark" /> Sending…</> : 'I\'m Interested'}
+                      {loading ? <><div className="spinner border-dark" /> Sending…</> : 'Request to Buy'}
                     </button>
                     <p className="text-xs text-gray text-center mt-12 line-height-tight">
-                      By showing interest, the owner will receive your contact info via smart contract. No funds are moved until escrow is initiated.
+                      By submitting a buy request, the owner will receive your offer via the smart contract Escrow generator. No funds are moved until escrow is initiated.
                     </p>
                   </>
                 ) : !isConnected ? (

@@ -149,6 +149,13 @@ def create_and_transfer_asa(
     metadata_hash = hashlib.sha256(ipfs_url.encode()).digest()
 
     # ── 3a. ASA Create txn (signed by creator) ──────────────
+    # Algorand Asset Name must be strictly <= 32 characters
+    suffix = f"-F{flat_index}/{total_flats}"
+    prefix = "RERA-"
+    max_rera_len = 32 - len(prefix) - len(suffix)
+    short_rera = rera_id[-max_rera_len:] if len(rera_id) > max_rera_len else rera_id
+    final_asset_name = f"{prefix}{short_rera}{suffix}"
+
     create_txn = transaction.AssetConfigTxn(
         sender=CREATOR_ADDR,
         sp=params,
@@ -156,7 +163,7 @@ def create_and_transfer_asa(
         decimals=0,
         default_frozen=False,
         unit_name="DLAND",
-        asset_name=f"RERA-{rera_id}-Flat-{flat_index}/{total_flats}",
+        asset_name=final_asset_name,
         url=ipfs_url,
         metadata_hash=metadata_hash,
         manager=CREATOR_ADDR,
@@ -170,29 +177,30 @@ def create_and_transfer_asa(
     result = _wait_for_confirmation(create_txid)
     asset_id = result["asset-index"]
 
-    # ── 3b. Seller opt-in (0-amount xfer to self) ───────────
-    optin_txn = transaction.AssetTransferTxn(
+    # Step 3. Opt-in the seller to the newly minted ASA
+    params = algod_client.suggested_params()
+    opt_in_txn = transaction.AssetTransferTxn(
         sender=seller_address,
         sp=params,
         receiver=seller_address,
         amt=0,
-        index=asset_id,
+        index=asset_id
     )
-    signed_optin = optin_txn.sign(seller_sk)
-    optin_txid = algod_client.send_transaction(signed_optin)
-    _wait_for_confirmation(optin_txid)
+    stxn_opt = opt_in_txn.sign(seller_sk)
+    txid_opt = algod_client.send_transaction(stxn_opt)
+    _wait_for_confirmation(txid_opt)
 
-    # ── 3c. Transfer ASA from creator → seller ──────────────
+    # Step 4. Transfer the ASA from Creator to Seller
     xfer_txn = transaction.AssetTransferTxn(
         sender=CREATOR_ADDR,
         sp=params,
         receiver=seller_address,
         amt=1,
-        index=asset_id,
+        index=asset_id
     )
-    signed_xfer = xfer_txn.sign(CREATOR_SK)
-    xfer_txid = algod_client.send_transaction(signed_xfer)
-    _wait_for_confirmation(xfer_txid)
+    stxn_xfer = xfer_txn.sign(CREATOR_SK)
+    txid_xfer = algod_client.send_transaction(stxn_xfer)
+    _wait_for_confirmation(txid_xfer)
 
     return {"asset_id": asset_id, "flat_index": flat_index}
 
@@ -200,7 +208,7 @@ def create_and_transfer_asa(
 # ──────────────────────────────────────────────
 #  4 ▸ ORCHESTRATOR – end-to-end pipeline
 # ──────────────────────────────────────────────
-def tokenise_rera(rera_id: str, seller_mnemonic: str) -> dict:
+def tokenise_rera(rera_id: str, seller_mnemonic: str, price: float = 0.0) -> dict:
     """
     Full pipeline:
       fetch → pin → create N ASAs → transfer to seller.
@@ -241,6 +249,18 @@ def tokenise_rera(rera_id: str, seller_mnemonic: str) -> dict:
             seller_sk=seller_sk,
         )
         created_assets.append(asset_info)
+        
+        # Insert into property_listings
+        try:
+            supabase.table("property_listings").insert({
+                "rera_id": rera_id,
+                "asset_id": asset_info["asset_id"],
+                "seller_wallet": seller_address,
+                "price": float(price),
+                "status": "listed"
+            }).execute()
+        except Exception as e:
+            print(f"Failed to insert listing for ASA {asset_info['asset_id']}: {e}")
 
     return {
         "rera_id": rera_id,

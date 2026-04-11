@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Search, SlidersHorizontal, MapPin, Building2, Landmark,
   ShieldCheck, LayoutGrid
@@ -12,8 +12,58 @@ export default function Marketplace() {
   const [typeFilter, setTypeFilter] = useState('all') // all, flat, land
   const [statusFilter, setStatusFilter] = useState('all') // all, listed, escrow
   
+  const [properties, setProperties] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/api/listings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const transformed = data.data.map(listing => {
+            const rera = listing.rera_records || {}
+            // Determine type: if no_of_flats > 0 or land_type relates to building
+            const isFlat = rera.no_of_flats > 0
+            
+            return {
+              id: listing.id,
+              type: isFlat ? 'flat' : 'land',
+              title: `${isFlat ? 'Flat' : 'Land'} in ${rera.location_village || 'Unknown'}`,
+              description: `RERA verified property in ${rera.location_taluk || ''}`,
+              location: { 
+                city: rera.location_district || 'Unknown', 
+                state: 'State', 
+                locality: rera.location_village || 'Unknown', 
+                pincode: '' 
+              },
+              price: Number(listing.price) || 0, 
+              area: rera.area_sqft || 0, 
+              area_unit: 'sqft', 
+              bedrooms: 2, 
+              bathrooms: 2, 
+              floor: 1, 
+              total_floors: 5,
+              rera_id: listing.rera_id, 
+              unit_no: '',
+              token_id: listing.asset_id, 
+              asset_id: listing.asset_id, 
+              ipfs_cid: '',
+              status: listing.status || 'listed', 
+              owner_wallet: listing.seller_wallet, 
+              owner_name: rera.owner_name || 'Anonymous', 
+              kyc_verified: true,
+              amenities: []
+            }
+          })
+          setProperties(transformed)
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [])
+  
   // Filtering logic
-  const filtered = PROPERTIES.filter(p => {
+  const filtered = properties.filter(p => {
     // text search
     const sq = searchQuery.toLowerCase()
     const matchSearch = !sq || 

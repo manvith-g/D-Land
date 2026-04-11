@@ -1,9 +1,11 @@
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect,useRef } from 'react'
 import {
   Lock, CheckCircle, ArrowRight, Zap, Shield, AlertCircle,
   Clock, Building2, ArrowLeft, ExternalLink, RefreshCw
 } from 'lucide-react'
+import algosdk from 'algosdk'
+import { Buffer } from 'buffer'
 import { useWallet } from '../context/WalletContext'
 import { ESCROW_RECORDS, PROPERTIES, formatPrice } from '../data/mockData'
 import './Escrow.css'
@@ -19,25 +21,147 @@ const STAGE_INDEX = { initiated: 0, token_locked: 1, payment_locked: 2, settled:
 
 export default function Escrow() {
   const { id } = useParams()
-  const { wallet, isConnected } = useWallet()
+  const { wallet, isConnected, peraWallet } = useWallet()
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
+  const [escrow, setEscrow] = useState(null)
+  const [property, setProperty] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [actionDone, setActionDone] = useState('')
+  const actionRunning = useRef(false)
+
+  useEffect(() => {
+    if (!id) return;
+    fetch(`http://127.0.0.1:5000/api/escrow/detail/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setEscrow(data.data)
+          setProperty(data.data.property)
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [id, actionDone])
 
   if (!isConnected) { navigate('/'); return null }
+  if (loading && !escrow) return <div className="container" style={{ padding: '80px 24px', textAlign: 'center' }}><div className="spinner mt-40" /></div>
 
-  const escrow   = ESCROW_RECORDS.find(e => e.id === id) || ESCROW_RECORDS[0]
-  const property = PROPERTIES.find(p => p.id === escrow?.property_id)
   const isBuyer  = wallet?.address === escrow?.buyer_wallet
-  const isSeller = wallet?.address === escrow?.seller_wallet || true // mock — show both actions
-
+  const isSeller = wallet?.address === escrow?.seller_wallet
   const currentStage = STAGE_INDEX[escrow?.status] ?? 0
 
   const action = async (type) => {
+    if (actionRunning.current) return;
+    actionRunning.current = true;
     setLoading(true)
-    await new Promise(r => setTimeout(r, 1800))
-    setLoading(false)
-    setActionDone(type)
+    try {
+      if (type === 'token') {
+        const res = await fetch(`http://127.0.0.1:5000/api/escrow/build-lock-token-tx/${id}`)
+        const d = await res.json()
+        if(!d.success) throw new Error(d.error)
+
+        // Decode msgpack base64 payload
+        const binaryString = window.atob(d.data)
+        const txnBytes = new Uint8Array(binaryString.length)
+        for (let i = 0; i < binaryString.length; i++) {
+          txnBytes[i] = binaryString.charCodeAt(i)
+        }
+        const txn = algosdk.decodeUnsignedTransaction(txnBytes)
+
+        // Local wallet Signature
+        const signedTxnGroup = await peraWallet.signTransaction([
+          [{ txn: txn, signers: [wallet.address] }]
+        ])
+        
+        // Construct Signed Base64 Payload
+        const signedBytes = signedTxnGroup[0]
+        let binaryResult = ''
+        for (let i = 0; i < signedBytes.byteLength; i++) {
+          binaryResult += String.fromCharCode(signedBytes[i])
+        }
+        const signedB64 = window.btoa(binaryResult)
+
+        // Ship it!
+        const submitRes = await fetch(`http://127.0.0.1:5000/api/escrow/submit-signed-lock`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            escrow_id: id,
+            signed_b64: signedB64,
+            lock_type: type
+          })
+        })
+        const submitData = await submitRes.json()
+        if(submitData.success) {
+          setActionDone(type)
+        } else {
+          throw new Error(submitData.error)
+        }
+      } else {
+        // Payment happens via the Buyer's Pera Wallet
+        // 1. Fetch the raw, unsigned transaction from the backend
+        const res = await fetch(`http://127.0.0.1:5000/api/escrow/build-lock-payment-tx/${id}`)
+        const d = await res.json()
+        if(!d.success) throw new Error(d.error)
+
+        // 2. Decode the backend's msgpack Base64 array into algosdk Txns
+        // We now receive an array containing [OptInTxn, PaymentTxn] grouped
+        const txnArray = d.data.map(b64Str => {
+          const binaryString = window.atob(b64Str)
+          const txnBytes = new Uint8Array(binaryString.length)
+          for (let i = 0; i < binaryString.length; i++) {
+            txnBytes[i] = binaryString.charCodeAt(i)
+          }
+          return algosdk.decodeUnsignedTransaction(txnBytes)
+        })
+
+        // 3. Prompt Pera Wallet to sign BOTH locally exactly for this correct user
+        // They must be provided within the same outer array to signify they are a group!
+        const signParam = txnArray.map(txn => ({ txn: txn, signers: [wallet.address] }))
+        const signedTxnGroup = await peraWallet.signTransaction([ signParam ])
+        
+        // 4. Submit cryptographically signed msgpacks to backend
+        // Combine the Uint8Arrays from each signature so Algorand can unwrap the group
+        let totalLength = 0;
+        signedTxnGroup.forEach(arr => totalLength += arr.byteLength);
+        
+        const combinedBytes = new Uint8Array(totalLength);
+        let offset = 0;
+        signedTxnGroup.forEach(arr => {
+          combinedBytes.set(arr, offset);
+          offset += arr.byteLength;
+        });
+
+        let binaryResult = ''
+        for (let i = 0; i < combinedBytes.byteLength; i++) {
+          binaryResult += String.fromCharCode(combinedBytes[i])
+        }
+        const signedB64 = window.btoa(binaryResult)
+        
+        const submitRes = await fetch(`http://127.0.0.1:5000/api/escrow/submit-signed-lock`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ escrow_id: id, signed_b64: signedB64, lock_type: type })
+        })
+        
+        const submitData = await submitRes.json()
+        if(submitData.success) {
+          setActionDone(type)
+        } else {
+          throw new Error(submitData.error)
+        }
+      }
+    } catch(e) {
+      console.error(e)
+      if (e?.data?.type === 'CONNECT_MODAL_CLOSED' || e?.message?.includes('Another transaction in progress')) {
+        alert("Wallet signature error. If Pera Wallet is stuck with 'Another transaction in progress', disconnect your Pera session and try reloading!")
+      } else {
+        alert("Error processing lock: " + (e.message || e))
+      }
+    } finally {
+      setLoading(false)
+      actionRunning.current = false
+    }
   }
 
   if (!escrow) {
@@ -78,8 +202,8 @@ export default function Escrow() {
                 <h3>Transaction Lifecycle</h3>
                 <div className="et-stages">
                   {ESCROW_STAGES.map(({ id: sid, label, icon: Icon, desc }, i) => {
-                    const done   = i < currentStage
-                    const active = i === currentStage
+                    const done   = escrow?.status === 'settled' ? i <= currentStage : i < currentStage
+                    const active = escrow?.status === 'settled' ? false : i === currentStage
                     return (
                       <div key={sid} className={`et-stage ${done ? 'done' : ''} ${active ? 'active' : ''}`}>
                         <div className="et-stage-left">
@@ -101,33 +225,38 @@ export default function Escrow() {
                           {/* Action buttons */}
                           {active && (
                             <div className="et-actions">
-                              {sid === 'token_locked' && (isSeller || true) && !actionDone && (
+                              {/* Stage 0 (Initiated): Lock Token needed */}
+                              {sid === 'initiated' && !actionDone && (
                                 <button
-                                  className="btn btn-primary btn-sm"
+                                  className={`btn btn-sm ${isSeller ? 'btn-primary' : 'btn-outline'}`}
                                   onClick={() => action('token')}
-                                  disabled={loading}
+                                  disabled={loading || !isSeller}
                                   id="btn-lock-token"
                                 >
                                   {loading ? <><div className="spinner" style={{ width: 14, height: 14 }} /> Locking…</>
+                                    : !isSeller ? <><Lock size={13} /> Waiting for Seller...</> 
                                     : <><Lock size={13} /> Lock Property Token</>}
                                 </button>
                               )}
-                              {sid === 'payment_locked' && (isBuyer || true) && !actionDone && (
+
+                              {/* Stage 1 (Token Locked): Lock Payment needed */}
+                              {sid === 'token_locked' && !actionDone && (
                                 <button
-                                  className="btn btn-primary btn-sm"
+                                  className={`btn btn-sm ${isBuyer ? 'btn-primary' : 'btn-outline'}`}
                                   onClick={() => action('payment')}
-                                  disabled={loading}
+                                  disabled={loading || !isBuyer}
                                   id="btn-lock-payment"
                                 >
                                   {loading ? <><div className="spinner" style={{ width: 14, height: 14 }} /> Processing…</>
+                                    : !isBuyer ? <><Zap size={13} /> Waiting for Buyer...</>
                                     : <><Zap size={13} /> Lock Payment</>}
                                 </button>
                               )}
+
                               {actionDone && (
                                 <div className="alert alert-success" style={{ marginTop: 0 }}>
                                   <CheckCircle size={14} />
-                                  {actionDone === 'token' ? 'Token locked in escrow!' : 'Payment locked in escrow!'}
-                                  {' '}Waiting for the other party...
+                                  Action signed and submitted!
                                 </div>
                               )}
                             </div>
@@ -148,9 +277,12 @@ export default function Escrow() {
                   <button className="btn btn-ghost btn-sm"><RefreshCw size={13} /> Refresh</button>
                 </div>
                 <div className="log-entries">
-                  <LogEntry time="09 Apr 2026 14:32" txn="KL7X…P9QR" event="Escrow contract deployed" type="info" />
-                  <LogEntry time="09 Apr 2026 14:50" txn="MN2A…W4TU" event="Property token (ASA 4500125) transferred to escrow" type="success" />
-                  <LogEntry time="10 Apr 2026 09:15" txn="Pending" event="Waiting for buyer payment…" type="pending" />
+                  <LogEntry time={new Date(escrow.created_at).toLocaleString()} txn="N/A" event="Escrow contract deployed" type="info" />
+                  {escrow.token_locked && <LogEntry time={new Date(escrow.updated_at).toLocaleString()} txn="Algorand" event={`Property token (ASA ${escrow.asset_id}) locked in escrow`} type="success" />}
+                  {escrow.payment_locked && <LogEntry time={new Date(escrow.updated_at).toLocaleString()} txn="Algorand" event={`Payment of ${escrow.amount} ALGO locked by buyer`} type="success" />}
+                  {!escrow.token_locked && <LogEntry time="Pending" txn="Pending" event="Waiting for seller to lock token..." type="pending" />}
+                  {!escrow.payment_locked && escrow.token_locked && <LogEntry time="Pending" txn="Pending" event="Waiting for buyer payment..." type="pending" />}
+                  {escrow.status === 'settled' && <LogEntry time={new Date(escrow.updated_at).toLocaleString()} txn="Algorand" event="Atomic swap settled and funds distributed" type="success" />}
                 </div>
               </div>
             </div>
@@ -162,15 +294,14 @@ export default function Escrow() {
             <div className="card animate-fade">
               <div className="card-body">
                 <h4 style={{ marginBottom: 14 }}><Building2 size={15} /> Property</h4>
-                {property ? (
+                {escrow ? (
                   <>
                     <div className="escrow-prop-img">
-                      <span>{property.type === 'flat' ? '🏢' : '🌾'}</span>
+                      <span>{escrow.property_title?.includes('Flat') ? '🏢' : '🌾'}</span>
                     </div>
-                    <div className="escrow-prop-name">{property.title}</div>
-                    <div className="escrow-prop-loc">{property.location.city}, {property.location.state}</div>
-                    <div className="escrow-prop-price">{formatPrice(property.price)}</div>
-                    <Link to={`/properties/${property.id}`} className="btn btn-outline btn-sm w-full" style={{ marginTop: 12 }}>
+                    <div className="escrow-prop-name">{escrow.property_title}</div>
+                    <div className="escrow-prop-price">{formatPrice(escrow.amount)}</div>
+                    <Link to={`/properties/${escrow.property_id}`} className="btn btn-outline btn-sm w-full" style={{ marginTop: 12 }}>
                       View Property <ExternalLink size={12} />
                     </Link>
                   </>
@@ -182,23 +313,23 @@ export default function Escrow() {
             <div className="card animate-fade" style={{ marginTop: 16 }}>
               <div className="card-body">
                 <h4 style={{ marginBottom: 14 }}>Parties</h4>
-                <div className="party-row">
+                <div className="party-row" style={{ overflow: 'hidden' }}>
                   <div className="party-role">Buyer</div>
                   <div className="party-info">
-                    <div className="avatar avatar-sm">A</div>
-                    <div>
-                      <div className="party-name">You (Arjun Sharma)</div>
+                    <div className="avatar avatar-sm">B</div>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div className="party-name mono text-xs" style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{escrow.buyer_wallet}</div>
                       <div className="party-status"><CheckCircle size={10} color="var(--clr-success)" /> KYC Verified</div>
                     </div>
                   </div>
                 </div>
                 <div className="divider divider-sm" />
-                <div className="party-row">
+                <div className="party-row" style={{ overflow: 'hidden' }}>
                   <div className="party-role">Seller</div>
                   <div className="party-info">
-                    <div className="avatar avatar-sm">D</div>
-                    <div>
-                      <div className="party-name">Deepa Krishnan</div>
+                    <div className="avatar avatar-sm">S</div>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div className="party-name mono text-xs" style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{escrow.seller_wallet}</div>
                       <div className="party-status"><CheckCircle size={10} color="var(--clr-success)" /> KYC Verified</div>
                     </div>
                   </div>

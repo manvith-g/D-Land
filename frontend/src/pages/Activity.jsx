@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
-import { LayoutList, ShoppingBag, Lock, ShieldCheck, Zap, ArrowRight, ExternalLink } from 'lucide-react'
+import { LayoutList, ShoppingBag, Lock, ShieldCheck, Zap, ArrowRight, ExternalLink, CheckCircle } from 'lucide-react'
 import { useWallet } from '../context/WalletContext'
-import { PROPERTIES, ESCROW_RECORDS, PURCHASE_REQUESTS, formatPrice, getStatusBadge } from '../data/mockData'
+import { formatPrice, getStatusBadge } from '../data/mockData'
 import './Activity.css'
 
 export default function Activity() {
@@ -10,6 +10,86 @@ export default function Activity() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') || 'listings'
+
+  const [myListings, setMyListings] = useState([])
+  const [myRequests, setMyRequests] = useState([])
+  const [myEscrow, setMyEscrow] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchData = async () => {
+    if (!wallet?.address) return
+    try {
+      setLoading(true)
+      const [resList, resReq, resBuyerReq, resEsc] = await Promise.all([
+        fetch('http://127.0.0.1:5000/api/listings'),
+        fetch(`http://127.0.0.1:5000/api/seller-requests/${wallet.address}`),
+        fetch(`http://127.0.0.1:5000/api/buyer-requests/${wallet.address}`),
+        fetch(`http://127.0.0.1:5000/api/escrows/${wallet.address}`)
+      ])
+      
+      const dList = await resList.json()
+      const dReq = await resReq.json()
+      const dBuyerReq = await resBuyerReq.json()
+      const dEsc = await resEsc.json()
+
+      if (dList.success) {
+        const mine = dList.data.filter(l => l.seller_wallet === wallet.address).map(listing => {
+            const rera = listing.rera_records || {}
+            const isFlat = rera.no_of_flats > 0
+            return {
+              id: listing.id,
+              type: isFlat ? 'flat' : 'land',
+              title: `${isFlat ? 'Flat' : 'Land'} in ${rera.location_village || 'Unknown'}`,
+              location: { city: rera.location_district || 'Unknown' },
+              price: Number(listing.price) || 0,
+              token_id: listing.asset_id,
+              status: listing.status || 'listed'
+            }
+        })
+        setMyListings(mine)
+      }
+      
+      let allRequests = []
+      if (dReq.success) {
+        allRequests = [...allRequests, ...dReq.data.map(r => ({ ...r, role: 'seller' }))]
+      }
+      if (dBuyerReq.success) {
+        allRequests = [...allRequests, ...dBuyerReq.data.map(r => ({ ...r, role: 'buyer' }))]
+      }
+      setMyRequests(allRequests)
+      
+      if (dEsc.success) setMyEscrow(dEsc.data)
+      
+    } catch(e) {
+       console.error("Error fetching activity:", e)
+    } finally {
+       setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [wallet?.address])
+
+  const handleAcceptDeal = async (reqId) => {
+    try {
+      const res = await fetch('http://127.0.0.1:5000/api/accept-deal', {
+        method: 'POST',
+        body: JSON.stringify({ request_id: reqId })
+      })
+      const d = await res.json()
+      if (d.success) {
+        alert("Deal accepted! Escrow initiated.")
+        fetchData()
+        setSearchParams({ tab: 'escrow' })
+      } else {
+        alert("Action failed: " + d.error)
+      }
+    } catch (e) {
+      console.error(e)
+      alert("Network error")
+    }
+  }
 
   if (!isConnected) {
     return (
@@ -20,11 +100,6 @@ export default function Activity() {
       </div>
     )
   }
-
-  // Mock data filtered for the current user
-  const myListings = PROPERTIES.filter(p => true) // In a real app: p.owner_wallet === wallet.address
-  const myRequests = PURCHASE_REQUESTS.filter(r => true)
-  const myEscrow = ESCROW_RECORDS.filter(e => true)
 
   const TABS = [
     { id: 'listings', label: 'My Listings', icon: LayoutList, count: myListings.length },
@@ -136,22 +211,43 @@ export default function Activity() {
                   <div className="p-40 text-center text-gray">No purchase requests found.</div>
                 ) : (
                   <div className="p-24 flex flex-col gap-16">
-                    {myRequests.map(r => (
-                      <div key={r.id} className="p-16 border border-border rounded-md bg-surface-2 flex items-center justify-between">
-                        <div>
-                           <div className="text-xs text-gray uppercase font-bold mb-8">Request on your listing</div>
-                           <div className="font-bold text-dark">{r.property_title}</div>
-                           <div className="text-sm mt-4">Buyer: {r.buyer_name} <span className="mono text-xs text-gray ml-4">({r.buyer_wallet})</span></div>
+                    {myRequests.map(r => {
+                      const isSeller = r.role === 'seller'
+                      return (
+                        <div key={r.id} className="p-16 border border-border rounded-md bg-surface-2 flex items-center justify-between">
+                          <div>
+                            <div className="text-xs text-gray uppercase font-bold mb-8">
+                              {isSeller ? "Request on your listing" : "You requested to buy"}
+                            </div>
+                            <div className="font-bold text-dark">{r.property_title}</div>
+                            {isSeller ? (
+                              <div className="text-sm mt-4">Buyer: {r.buyer_name} <span className="mono text-xs text-gray ml-4">({r.buyer_wallet})</span></div>
+                            ) : (
+                              <div className="text-sm mt-4">Status: <span className="text-primary font-bold">{r.status.toUpperCase()}</span></div>
+                            )}
+                          </div>
+                          <div className="text-right">
+                            <div className="font-display font-bold text-xl mb-8">{formatPrice(r.amount)}</div>
+                            {isSeller ? (
+                              <div className="flex gap-8">
+                                <button 
+                                  className="btn btn-primary btn-sm"
+                                  onClick={() => handleAcceptDeal(r.id)}
+                                  disabled={r.status !== 'pending'}
+                                >
+                                  {r.status === 'pending' ? 'Accept & Start Escrow' : 'Accepted'}
+                                </button>
+                                <button className="btn btn-outline btn-sm">Decline</button>
+                              </div>
+                            ) : (
+                              <div className="text-sm text-gray">
+                                {r.status === 'pending' ? 'Waiting for seller to accept...' : 'Escrow Started!'}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className="text-right">
-                           <div className="font-display font-bold text-xl mb-8">{formatPrice(r.amount)}</div>
-                           <div className="flex gap-8">
-                             <button className="btn btn-primary btn-sm">Accept & Start Escrow</button>
-                             <button className="btn btn-outline btn-sm">Decline</button>
-                           </div>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 )}
               </div>
@@ -175,7 +271,7 @@ export default function Activity() {
                             <div className="text-sm text-gray mono flex items-center gap-6"><Zap size={12}/> Contract: {e.escrow_address}</div>
                           </div>
                           <div className="text-right">
-                            <span className="badge badge-warning mb-8">Token Locked</span>
+                            <span className={`badge ${e.status === 'settled' ? 'badge-success' : 'badge-warning'} mb-8`}>{e.status === 'settled' ? 'Settled' : e.status === 'payment_locked' ? 'Payment Locked' : 'Token Locked'}</span>
                             <div className="font-bold">{formatPrice(e.amount)}</div>
                           </div>
                         </div>
@@ -187,7 +283,7 @@ export default function Activity() {
                            <div className={`flex-1 text-center py-8 text-xs font-bold ${e.payment_locked ? 'bg-success text-white' : 'bg-warning-bg text-warning border-y border-warning-border'}`}>
                              2. Payment Locked
                            </div>
-                           <div className="flex-1 text-center py-8 text-xs font-bold rounded-r-md bg-gray-200 text-gray">
+                           <div className={`flex-1 text-center py-8 text-xs font-bold rounded-r-md ${e.status === 'settled' ? 'bg-success text-white' : 'bg-gray-200 text-gray'}`}>
                              3. Settled
                            </div>
                         </div>
